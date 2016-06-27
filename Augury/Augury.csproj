@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C2D13DBA-DD3A-4EDC-ABD0-0F4BA2094411}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Augury</RootNamespace>
+    <AssemblyName>Augury</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Auger.cs" />
+    <Compile Include="AugerSerializer.cs" />
+    <Compile Include="Comparers\StringArrayEqualityComparerThree.cs" />
+    <Compile Include="Comparers\StringArrayEqualityComparerTwo.cs" />
+    <Compile Include="CorpusProcessor.cs" />
+    <Compile Include="Dawg.cs" />
+    <Compile Include="DawgBuilder.cs" />
+    <Compile Include="DawgNode.cs" />
+    <Compile Include="NwStarCount.cs" />
+    <Compile Include="OneStringInfo.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SpellCheck.cs" />
+    <Compile Include="SpellCheckerSerializer.cs" />
+    <Compile Include="Tokenizer.cs" />
+    <Compile Include="TwoStringInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Augury.Lucene\Augury.Lucene.csproj">
+      <Project>{2389893d-04cc-4326-a062-fbc8e4ce365f}</Project>
+      <Name>Augury.Lucene</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Augury.Base\Augury.Base.csproj">
+      <Project>{be214e3a-0a6d-4998-95f6-dbc06e614925}</Project>
+      <Name>Augury.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Augury.Microsoft.ReferenceSource\Augury.Microsoft.ReferenceSource.csproj">
+      <Project>{6af08b5f-c80b-4941-aaab-0fc205b93b91}</Project>
+      <Name>Augury.Microsoft.ReferenceSource</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Augury.PriorityQueue\Augury.PriorityQueue.csproj">
+      <Project>{8939f260-afba-4d9d-b943-63ba2dc3c4d5}</Project>
+      <Name>Augury.PriorityQueue</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="LICENSE.txt" />
+    <Content Include="README.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
