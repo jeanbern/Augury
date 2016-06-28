@@ -16,18 +16,15 @@ namespace Augury
             var nValues = ReadChunk(stream, "nValues");
 
             return new Auger(dataSet, symPred, reverseWordList,
-                        BitConverter.ToUInt32(nValues, 0),
-                        BitConverter.ToUInt32(nValues, 4),
-                        BitConverter.ToUInt32(nValues, 8),
-                        BitConverter.ToUInt32(nValues, 12),
-                        BitConverter.ToUInt32(nValues, 16),
-                        BitConverter.ToUInt32(nValues, 20),
-                        BitConverter.ToUInt32(nValues, 24),
-                        BitConverter.ToUInt32(nValues, 28),
-                        BitConverter.ToDouble(nValues, 32))
-            {
-                English = BitConverter.ToBoolean(nValues, 40)
-            };
+                BitConverter.ToUInt32(nValues, 0),
+                BitConverter.ToUInt32(nValues, 4),
+                BitConverter.ToUInt32(nValues, 8),
+                BitConverter.ToUInt32(nValues, 12),
+                BitConverter.ToUInt32(nValues, 16),
+                BitConverter.ToUInt32(nValues, 20),
+                BitConverter.ToUInt32(nValues, 24),
+                BitConverter.ToUInt32(nValues, 28),
+                BitConverter.ToDouble(nValues, 32));
         }
 
         public override void Serialize(Stream stream, Auger data)
@@ -39,7 +36,7 @@ namespace Augury
 
             new SpellCheckSerializer().Serialize(stream, data.SpellChecker);
 
-            stream.Write(BitConverter.GetBytes(41), 0, 4);
+            stream.Write(BitConverter.GetBytes(40), 0, 4);
             bytes = BitConverter.GetBytes(data.N11);
             stream.Write(bytes, 0, bytes.Length);
             bytes = BitConverter.GetBytes(data.N12);
@@ -58,7 +55,6 @@ namespace Augury
             stream.Write(bytes, 0, bytes.Length);
             bytes = BitConverter.GetBytes(data.TwoGramCount);
             stream.Write(bytes, 0, bytes.Length);
-            bytes = BitConverter.GetBytes(data.English);
             stream.Write(bytes, 0, bytes.Length);
         }
 

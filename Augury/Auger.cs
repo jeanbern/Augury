@@ -14,8 +14,6 @@ namespace Augury
     /// <seealso cref="http://west.uni-koblenz.de/sites/default/files/BachelorArbeit_MartinKoerner.pdf">Martin Christian Körner 2013. For more readable notation.</seealso>
     public class Auger
     {
-        public bool English { get; set; }
-
         #region predict
 
         //The larger this value, the more words we check for history probability.

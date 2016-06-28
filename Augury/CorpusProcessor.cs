@@ -7,7 +7,7 @@ namespace Augury
 {
     public static class CorpusProcessor
     {
-        public static Auger Create(bool qikit, List<string> words, params string[] filenames)
+        public static Auger Create(List<string> words, params string[] filenames)
         {
             var d1 = new Dictionary<string, uint>();
             var d2 = new Dictionary<string[], uint>(new StringArrayEqualityComparerTwo());
@@ -25,10 +25,7 @@ namespace Augury
                 }
             }
 
-            return new Auger(d3, d2, d1, words)
-            {
-                English = !qikit
-            };
+            return new Auger(d3, d2, d1, words);
         }
     }
 }
