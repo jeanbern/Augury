@@ -1,0 +1,9 @@
+[submodule "Augury.Base"]
+	path = Augury.Base
+	url = https://github.com/jeanbern/Augury.Base.git
+[submodule "Augury.PriorityQueue"]
+	path = Augury.PriorityQueue
+	url = https://github.com/jeanbern/Augury.PriorityQueue.git
+[submodule "Augury.SymSpell"]
+	path = Augury.SymSpell
+	url = https://github.com/jeanbern/Augury.SymSpell.git
