@@ -3,4 +3,4 @@
 	url = https://github.com/jeanbern/Augury.Base.git
 [submodule "Augury.PriorityQueue"]
 	path = Augury.PriorityQueue
-	url = https://github.com/jeanbern/High-Speed-Priority-Queue-for-C-Sharp.git
+	url = https://github.com/jeanbern/Augury.PriorityQueue.git
