@@ -1,0 +1,3 @@
+[submodule "Augury.Base"]
+	path = Augury.Base
+	url = https://github.com/jeanbern/Augury.Base.git
