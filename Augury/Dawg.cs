@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -32,32 +33,26 @@ namespace Augury
             words.ForEach(builder.Insert);
             var root = builder.Finish();
 
-            var allNodes = root.GetNodes().ToArray();
-            var terminalNodes = allNodes.Where(x => x.TerminalNode).ToArray();
-            TerminalCount = terminalNodes.Count();
-            allNodes = terminalNodes.Concat(allNodes.Where(x => !x.TerminalNode)).ToArray();
+            int low = 0, high = 0;
+            var allNodes = new List<DawgNode>();
+            var totalChildCount = root.Traversal(ref low, ref high, allNodes);
+            Func<int, int> realIndex = x => -low + (x < 0 ? x : x - 1);
 
             Characters = allNodes.SelectMany(node => node.Children.Keys).Distinct().OrderBy(character => character).ToArray();
-            var characterIndex = Characters.Select((character, i) => new KeyValuePair<char, ushort>(character, (ushort) i)).ToDictionary(x => x.Key, x => x.Value);
-            var totalChildCount = allNodes.Sum(n => n.Children.Count);
-
-            var nodeIndex = allNodes.Select((node, i) => new KeyValuePair<DawgNode, int>(node, i)).ToDictionary(x => x.Key, x => x.Value);
-            if (!nodeIndex.TryGetValue(root, out RootNodeIndex))
-            {
-                RootNodeIndex = -1;
-            }
-
-            FirstChildIndex = new int[allNodes.Length];
             Edges = new int[totalChildCount];
             EdgeCharacter = new ushort[totalChildCount];
+            FirstChildIndex = new int[high - low];
+            RootNodeIndex = realIndex(root.Id);
+            TerminalCount = -low;
 
+            var characterIndex = Characters.Select((character, i) => new KeyValuePair<char, ushort>(character, (ushort)i)).ToDictionary(x => x.Key, x => x.Value);
             var edgeIndex = 0;
-            foreach (var node in nodeIndex)
+            foreach (var node in allNodes)
             {
-                FirstChildIndex[node.Value] = edgeIndex;
-                foreach (var child in node.Key.SortedChildren)
+                FirstChildIndex[realIndex(node.Id)] = edgeIndex;
+                foreach (var child in node.SortedChildren)
                 {
-                    Edges[edgeIndex] = nodeIndex[child.Value];
+                    Edges[edgeIndex] = realIndex(child.Value.Id);
                     EdgeCharacter[edgeIndex] = characterIndex[child.Key];
                     edgeIndex++;
                 }

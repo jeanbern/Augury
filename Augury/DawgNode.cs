@@ -35,62 +35,40 @@ namespace Augury
 
             return ToString() == other.ToString();
         }
-
-        public ICollection<DawgNode> GetNodes()
+        
+        public int Id { get; protected set; }
+        public int Traversal(ref int low, ref int high, ICollection<DawgNode> nodes)
         {
-            var visited = new HashSet<DawgNode>();
-            NodesReachable(visited);
-            return visited;
-        }
-
-        public bool TerminalNode { get; set; }
-        public IDictionary<char, DawgNode> Children = new Dictionary<char, DawgNode>();
-
-        public int NodesReachable()
-        {
-            return NodesReachable(new HashSet<DawgNode>());
-        }
-
-        public IReadOnlyCollection<string> StringsReachable()
-        {
-            var results = new List<string>();
-            StringsReachable(new StringBuilder(), results);
-            return results;
-        }
-
-        public IOrderedEnumerable<KeyValuePair<char, DawgNode>> SortedChildren
-        {
-            get { return Children.OrderBy(e => e.Key); }
-        }
-
-        private int NodesReachable(HashSet<DawgNode> visited)
-        {
-            if (visited == null)
-            {
-                visited = new HashSet<DawgNode>();
-            }
-
-            if (!visited.Add(this))
+            if (Id != 0)
             {
                 return 0;
             }
 
-            return 1 + Children.Aggregate(0, (i, pair) => i + pair.Value.NodesReachable(visited));
-        }
-
-        private void StringsReachable(StringBuilder soFar, ICollection<string> values)
-        {
-            foreach (var child in Children)
+            if (TerminalNode)
             {
-                soFar.Append(child.Key);
-                if (child.Value.TerminalNode)
-                {
-                    values.Add(soFar.ToString());
-                }
-
-                child.Value.StringsReachable(soFar, values);
-                soFar.Length--;
+                Id = --low;
             }
+            else
+            {
+                Id = ++high;
+            }
+
+            var result = 0;
+            nodes.Add(this);
+            foreach(var child in Children)
+            {
+                result += 1 + child.Value.Traversal(ref low, ref high, nodes);
+            }
+
+            return result;
         }
+
+        public bool TerminalNode { get; set; }
+        public IDictionary<char, DawgNode> Children = new Dictionary<char, DawgNode>();
+        
+        public IOrderedEnumerable<KeyValuePair<char, DawgNode>> SortedChildren
+        {
+            get { return Children.OrderBy(e => e.Key); }
+        }        
     }
 }
