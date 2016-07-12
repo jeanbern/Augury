@@ -19,7 +19,7 @@ namespace Augury
         {
             if (string.Compare(word, _previousWord, StringComparison.OrdinalIgnoreCase) <= 0)
             {
-                throw new Exception("We expect the words to be sorted");
+                throw new Exception(string.Format("We expect the words to be sorted. But we received {0} followed by {1}", _previousWord, word));
             }
 
             int commonPrefix;

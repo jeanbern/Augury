@@ -5,22 +5,22 @@ using System.Linq;
 // ReSharper disable once CheckNamespace
 namespace System.Collections.Generic
 {
-    public class OrderedDictionarySerializer : Serializer<OrderedDictionary<string, int>>
+    public class OrderedDictionarySerializer : ISerializer<OrderedDictionary<string, int>>
     {
 
-        public override OrderedDictionary<string, int> Deserialize(Stream stream)
+        public OrderedDictionary<string, int> Deserialize(Stream stream)
         {
-            return DeserializeDictionaryStringint(ReadChunk(stream, "dataSet"));
+            return DeserializeDictionaryStringint(Serialization.ReadChunk(stream, "dataSet"));
         }
 
-        public override void Serialize(Stream stream, OrderedDictionary<string, int> data)
+        public void Serialize(Stream stream, OrderedDictionary<string, int> data)
         {
-            var bytes = Encapsulate(Serialize(data));
+            var bytes = Serialization.Encapsulate(Serialize(data));
             stream.Write(bytes, 0, bytes.Length);
         }
         protected static byte[] Serialize(OrderedDictionary<string, int> data)
         {
-            return Concat(data.Select(Serialize));
+            return Serialization.Concat(data.Select(Serialization.Serialize));
         }
 
         protected static OrderedDictionary<string, int> DeserializeDictionaryStringint(byte[] bytes)
@@ -32,7 +32,7 @@ namespace System.Collections.Generic
             {
                 var nextLength = BitConverter.ToInt32(bytes, index);
                 index += 4;
-                var nextPair = DeserializeKvpStringint(bytes, index, nextLength);
+                var nextPair = Serialization.DeserializeKvpStringint(bytes, index, nextLength);
                 dict.Add(nextPair.Key, nextPair.Value);
                 index += nextLength + 4;
             }

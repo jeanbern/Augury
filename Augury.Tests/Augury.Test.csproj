@@ -45,7 +45,9 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework">
+          <Private>False</Private>
+        </Reference>
       </ItemGroup>
     </Otherwise>
   </Choose>
@@ -53,18 +55,16 @@
     <Compile Include="DawgTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestDawg.cs" />
+    <Compile Include="SerializationTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="SampleTexts\2 B R 0 2 B.txt" />
     <Content Include="SampleTexts\Alice%27s adventures in wonderland.txt" />
     <Content Include="SampleTexts\pride and prejudice.txt" />
-    <Content Include="SampleTexts\Robinson Crusoe - Qikit.txt" />
     <Content Include="SampleTexts\Robinson Crusoe.txt" />
-    <Content Include="SampleTexts\the adventures of sherlock holmes - Qikit.txt" />
     <Content Include="SampleTexts\the adventures of sherlock holmes.txt" />
     <Content Include="SampleTexts\The invisible man.txt" />
     <Content Include="SampleTexts\The lost world.txt" />
-    <Content Include="SampleTexts\The picture of Dorian Gray Portion.txt" />
     <Content Include="SampleTexts\The picture of Dorian Gray.txt" />
     <Content Include="SampleTexts\The time machine.txt" />
     <Content Include="SampleTexts\The war of the worlds.txt" />

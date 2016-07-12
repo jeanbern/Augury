@@ -27,10 +27,14 @@ namespace Augury
             EdgeCharacter = edgeCharacter;
         }
 
-        protected Dawg(List<string> words)
+        protected Dawg(IEnumerable<string> words)
         {
             var builder = new DawgBuilder();
-            words.ForEach(builder.Insert);
+            foreach(var word in words)
+            {
+                builder.Insert(word);
+            }
+
             var root = builder.Finish();
 
             int low = 0, high = 0;

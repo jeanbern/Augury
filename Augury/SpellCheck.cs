@@ -8,8 +8,10 @@ using System.Text;
 
 namespace Augury
 {
-    public class SpellCheck : Dawg
+    public class SpellCheck : Dawg, IPrefixLookup
     {
+        protected static IStringMetric _stringSimilarityProvider = new BoundedJaroWinkler();
+
         /// <summary>
         /// Finds possible corrections or extensions for a given word.
         /// </summary>
@@ -50,7 +52,7 @@ namespace Augury
                 var queue = new WordQueue(possibleResults.Count);
                 foreach (var possibleResult in possibleResults)
                 {
-                    queue.Enqueue(possibleResult, JaroWinkler.BoundedSimilarity(input, possibleResult));
+                    queue.Enqueue(possibleResult, _stringSimilarityProvider.Similarity(input, possibleResult));
                 }
 
                 return queue.OrderByDescending(x => x.Similarity);
@@ -66,7 +68,7 @@ namespace Augury
             var likelyWordsQueue = new WordQueue(max);
             foreach (var word in possibleResults)
             {
-                var jw = JaroWinkler.BoundedSimilarity(input, word);
+                var jw = _stringSimilarityProvider.Similarity(input, word);
                 likelyWordsQueue.Enqueue(word, jw);
             }
 
@@ -91,7 +93,7 @@ namespace Augury
                 //It does not take into account the distance between the matching indices.
                 //But we don't care, proper values will be computed later.
                 //This is pre-processing to avoid values that could never match.
-                var maxJaroLength = JaroWinkler.MaxLengthForPrefix(match, builder.Length, transpositions);
+                var maxJaroLength = BoundedJaroWinkler.MaxLengthForPrefix(match, builder.Length, transpositions);
                 MatchPrefix(soFar, builder, node, maxJaroLength - builder.Length);
                 return;
             }
@@ -180,15 +182,13 @@ namespace Augury
                 builder.Length--;
             }
         }
-
-
-
+        
         public SpellCheck(int terminalCount, char[] characters, int rootNodeIndex, int[] firstChildForNode, int[] edges, ushort[] edgeCharacter)
             : base(terminalCount, characters, rootNodeIndex, firstChildForNode, edges, edgeCharacter)
         {
         }
 
-        internal SpellCheck(List<string> root) : base(root)
+        internal SpellCheck(IEnumerable<string> words) : base(words)
         {
         }
     }
