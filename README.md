@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/jeanbern/Augury.png?label=ready&title=Ready)](https://waffle.io/jeanbern/Augury)
 # Augury
 
 [![Build status](https://ci.appveyor.com/api/projects/status/1lmiyf9319aagk6p?svg=true)](https://ci.appveyor.com/project/jeanbern/augury)
