@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Augury.Test", "Augury.Tests\Augury.Test.csproj", "{16EEC21E-1893-4074-846D-20F549B6F2A7}"
 EndProject
@@ -11,11 +11,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Augury", "Augury\Augury.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Augury.SymSpell", "Augury.SymSpell\Augury.SymSpell.csproj", "{0BA44E5E-458C-43EE-A92F-0AD8E4AC43FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Augury.Lucene", "Augury.Lucene\Augury.Lucene.csproj", "{2389893D-04CC-4326-A062-FBC8E4CE365F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Augury.Base", "Augury.Base\Augury.Base.csproj", "{BE214E3A-0A6D-4998-95F6-DBC06E614925}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Augury.Microsoft.ReferenceSource", "Augury.Microsoft.ReferenceSource\Augury.Microsoft.ReferenceSource.csproj", "{6AF08B5F-C80B-4941-AAAB-0FC205B93B91}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Augury.Lucene", "..\Augury.Lucene\Augury.Lucene.csproj", "{2389893D-04CC-4326-A062-FBC8E4CE365F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,10 +39,6 @@ Global
 		{0BA44E5E-458C-43EE-A92F-0AD8E4AC43FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0BA44E5E-458C-43EE-A92F-0AD8E4AC43FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0BA44E5E-458C-43EE-A92F-0AD8E4AC43FE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2389893D-04CC-4326-A062-FBC8E4CE365F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2389893D-04CC-4326-A062-FBC8E4CE365F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2389893D-04CC-4326-A062-FBC8E4CE365F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2389893D-04CC-4326-A062-FBC8E4CE365F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BE214E3A-0A6D-4998-95F6-DBC06E614925}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BE214E3A-0A6D-4998-95F6-DBC06E614925}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE214E3A-0A6D-4998-95F6-DBC06E614925}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -51,6 +47,10 @@ Global
 		{6AF08B5F-C80B-4941-AAAB-0FC205B93B91}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6AF08B5F-C80B-4941-AAAB-0FC205B93B91}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6AF08B5F-C80B-4941-AAAB-0FC205B93B91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2389893D-04CC-4326-A062-FBC8E4CE365F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2389893D-04CC-4326-A062-FBC8E4CE365F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2389893D-04CC-4326-A062-FBC8E4CE365F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2389893D-04CC-4326-A062-FBC8E4CE365F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -73,7 +73,7 @@
     <Content Include="SampleTexts\war and peace.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Augury.Lucene\Augury.Lucene.csproj">
+    <ProjectReference Include="..\..\Augury.Lucene\Augury.Lucene.csproj">
       <Project>{2389893d-04cc-4326-a062-fbc8e4ce365f}</Project>
       <Name>Augury.Lucene</Name>
     </ProjectReference>

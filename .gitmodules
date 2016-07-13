@@ -7,3 +7,6 @@
 [submodule "Augury.SymSpell"]
 	path = Augury.SymSpell
 	url = https://github.com/jeanbern/Augury.SymSpell.git
+[submodule "Augury.Lucene"]
+	path = Augury.Lucene
+	url = https://github.com/jeanbern/Augury.Lucene.git
