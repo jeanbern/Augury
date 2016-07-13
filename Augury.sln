@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Augury.Base", "Augury.Base\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Augury.Microsoft.ReferenceSource", "Augury.Microsoft.ReferenceSource\Augury.Microsoft.ReferenceSource.csproj", "{6AF08B5F-C80B-4941-AAAB-0FC205B93B91}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Augury.Lucene", "..\Augury.Lucene\Augury.Lucene.csproj", "{2389893D-04CC-4326-A062-FBC8E4CE365F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Augury.Lucene", "Augury.Lucene\Augury.Lucene.csproj", "{2389893D-04CC-4326-A062-FBC8E4CE365F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
