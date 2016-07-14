@@ -10,3 +10,6 @@
 [submodule "Augury.Lucene"]
 	path = Augury.Lucene
 	url = https://github.com/jeanbern/Augury.Lucene.git
+[submodule "Augury.Microsoft.ReferenceSource"]
+	path = Augury.Microsoft.ReferenceSource
+	url = https://github.com/jeanbern/Microsoft.ReferenceSource.git

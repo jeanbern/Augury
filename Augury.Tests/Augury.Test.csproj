@@ -77,6 +77,10 @@
       <Project>{2389893d-04cc-4326-a062-fbc8e4ce365f}</Project>
       <Name>Augury.Lucene</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Augury.Microsoft.ReferenceSource\Augury.Microsoft.ReferenceSource.csproj">
+      <Project>{6af08b5f-c80b-4941-aaab-0fc205b93b91}</Project>
+      <Name>Augury.Microsoft.ReferenceSource</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Augury.SymSpell\Augury.SymSpell.csproj">
       <Project>{0ba44e5e-458c-43ee-a92f-0ad8e4ac43fe}</Project>
       <Name>Augury.SymSpell</Name>
@@ -88,10 +92,6 @@
     <ProjectReference Include="..\Augury\Augury.csproj">
       <Project>{c2d13dba-dd3a-4edc-abd0-0f4ba2094411}</Project>
       <Name>Augury</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Augury.Microsoft.ReferenceSource\Augury.Microsoft.ReferenceSource.csproj">
-      <Project>{6af08b5f-c80b-4941-aaab-0fc205b93b91}</Project>
-      <Name>Augury.Microsoft.ReferenceSource</Name>
     </ProjectReference>
     <ProjectReference Include="..\Augury.PriorityQueue\Augury.PriorityQueue.csproj">
       <Project>{8939f260-afba-4d9d-b943-63ba2dc3c4d5}</Project>
