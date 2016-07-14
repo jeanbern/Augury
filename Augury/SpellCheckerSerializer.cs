@@ -40,7 +40,9 @@ namespace Augury
             stream.Read(bytes, 0, len);
             var characterEdges = Serialization.DeserializeArrayUShort(bytes, 0, len);
 
-            var dawg = new SpellCheck(terminalCount, characters, rootNodeIndex, firstChildIndex, edges, characterEdges);
+            var metric = Serialization.DeserializeInterface<IStringMetric>(stream);
+
+            var dawg = new SpellCheck(terminalCount, characters, rootNodeIndex, firstChildIndex, edges, characterEdges, metric);
             return dawg;
         }
 
@@ -64,6 +66,7 @@ namespace Augury
             bytes = Serialization.Encapsulate(Serialization.Serialize(data.EdgeCharacter));
             stream.Write(bytes, 0, bytes.Length);
 
+            Serialization.SerializeInterface(stream, data.StringSimilarityProvider);
         }
     }
 }

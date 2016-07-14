@@ -1,4 +1,5 @@
 ﻿using Augury.Comparers;
+using Augury.Lucene;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -29,7 +30,7 @@ namespace Augury
             var mkn = new ModifiedKnesserNey(d3, d2, d1);
             var words = d1.Keys.ToArray();
             Array.Sort(words, StringComparer.OrdinalIgnoreCase);
-            var sc = new SpellCheck(words);
+            var sc = new SpellCheck(words, new BoundedJaroWinkler());
             return new Auger(sc, mkn, mkn);
         }
 
@@ -52,7 +53,7 @@ namespace Augury
             }
 
             var mkn = new ModifiedKnesserNey(d3, d2, d1);
-            var sc = new SpellCheck(words);
+            var sc = new SpellCheck(words, new BoundedJaroWinkler());
             return new Auger(sc, mkn, mkn);
         }
     }

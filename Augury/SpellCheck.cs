@@ -10,7 +10,7 @@ namespace Augury
 {
     public class SpellCheck : Dawg, IPrefixLookup
     {
-        protected static IStringMetric _stringSimilarityProvider = new BoundedJaroWinkler();
+        internal readonly IStringMetric StringSimilarityProvider;
 
         /// <summary>
         /// Finds possible corrections or extensions for a given word.
@@ -44,7 +44,7 @@ namespace Augury
             return OrderPossibilities(prefix, maxResults, possibleWords);
         }
 
-        private static IEnumerable<IWordSimilarityNode> OrderPossibilities(string input, int maxResults, ICollection<string> possibleResults)
+        private IEnumerable<IWordSimilarityNode> OrderPossibilities(string input, int maxResults, ICollection<string> possibleResults)
         {
             //If we only have a small amount, we can sort them all.
             if (possibleResults.Count <= maxResults)
@@ -52,7 +52,7 @@ namespace Augury
                 var queue = new WordQueue(possibleResults.Count);
                 foreach (var possibleResult in possibleResults)
                 {
-                    queue.Enqueue(possibleResult, _stringSimilarityProvider.Similarity(input, possibleResult));
+                    queue.Enqueue(possibleResult, StringSimilarityProvider.Similarity(input, possibleResult));
                 }
 
                 return queue.OrderByDescending(x => x.Similarity);
@@ -68,7 +68,7 @@ namespace Augury
             var likelyWordsQueue = new WordQueue(max);
             foreach (var word in possibleResults)
             {
-                var jw = _stringSimilarityProvider.Similarity(input, word);
+                var jw = StringSimilarityProvider.Similarity(input, word);
                 likelyWordsQueue.Enqueue(word, jw);
             }
 
@@ -183,13 +183,15 @@ namespace Augury
             }
         }
         
-        public SpellCheck(int terminalCount, char[] characters, int rootNodeIndex, int[] firstChildForNode, int[] edges, ushort[] edgeCharacter)
+        public SpellCheck(int terminalCount, char[] characters, int rootNodeIndex, int[] firstChildForNode, int[] edges, ushort[] edgeCharacter, IStringMetric metric)
             : base(terminalCount, characters, rootNodeIndex, firstChildForNode, edges, edgeCharacter)
         {
+            StringSimilarityProvider = metric;
         }
 
-        internal SpellCheck(IEnumerable<string> words) : base(words)
+        internal SpellCheck(IEnumerable<string> words, IStringMetric metric) : base(words)
         {
+            StringSimilarityProvider = metric;
         }
     }
 }
