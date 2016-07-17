@@ -54,8 +54,11 @@
   <ItemGroup>
     <Compile Include="DawgTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StringMetric\BoundedJaroWinklerTest.cs" />
+    <Compile Include="StringMetric\StringMetricTestBase.cs" />
     <Compile Include="TestDawg.cs" />
     <Compile Include="SerializationTests.cs" />
+    <Compile Include="StringMetric\JaroWinklerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="SampleTexts\2 B R 0 2 B.txt" />

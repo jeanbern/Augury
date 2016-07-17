@@ -8,11 +8,11 @@ namespace Augury.Test
         {
         }
 
-        public TestDawg(List<string> words) : base(words)
+        public TestDawg(IEnumerable<string> words) : base(words)
         {
         }
 
-        public int EdgeCount { get { return Edges.Length; } }
-        public int NodeCount { get { return FirstChildIndex.Length; } }
+        public int EdgeCount => Edges.Length;
+        public int NodeCount => FirstChildIndex.Length;
     }
 }
