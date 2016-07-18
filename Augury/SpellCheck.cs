@@ -193,5 +193,22 @@ namespace Augury
         {
             StringSimilarityProvider = metric;
         }
+
+        public override bool Equals(object obj)
+        {
+            var other = obj as SpellCheck;
+            return other != null && Equals(other);
+        }
+
+        protected bool Equals(SpellCheck other)
+        {
+            return StringSimilarityProvider.GetType() == other.StringSimilarityProvider.GetType() &&
+                   base.Equals(other);
+        }
+
+        public override int GetHashCode()
+        {
+            return ((StringSimilarityProvider?.GetType().ToString().GetHashCode() ?? 0) * 397) ^ base.GetHashCode();
+        }
     }
 }

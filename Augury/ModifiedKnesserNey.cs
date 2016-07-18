@@ -1,11 +1,17 @@
 ﻿using Augury.Base;
+using Augury.Comparers;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace Augury
 {
+    /// <summary>
+    /// Provides methods for calculating the probability of a word appearing based on words preceeding it. Uses the modified Kneser-Ney algorithm from Chen & Goodman 1999.
+    /// </summary>
+    /// <see cref="http://www2.denizyuret.com/ref/goodman/chen-goodman-99.pdf">Chen & Goodman 1999. The paper detailing the algorithm used here to calculate predictions.</see>
+    /// <seealso cref="http://ieeexplore.ieee.org/xpl/login.jsp?tp=&arnumber=479394">Knesser & Ney 1995. The paper referenced by Chen & Goodman</seealso>
+    /// <seealso cref="http://west.uni-koblenz.de/sites/default/files/BachelorArbeit_MartinKoerner.pdf">Martin Christian Körner 2013. For more readable notation.</seealso>
     public class ModifiedKnesserNey : ILanguageModel, INextWordModel
     {
         internal uint N11, N12, N13, N14;
@@ -30,7 +36,6 @@ namespace Augury
         /// <param name="threeGrams"></param>
         /// <param name="twoGrams"></param>
         /// <param name="oneGrams"></param>
-        /// <param name="words"></param>
         internal ModifiedKnesserNey(IEnumerable<KeyValuePair<string[], uint>> threeGrams, IEnumerable<KeyValuePair<string[], uint>> twoGrams, Dictionary<string, uint> oneGrams)
         {
             var rejectedOneGrams = new HashSet<string>();
@@ -477,5 +482,51 @@ namespace Augury
 
         #endregion
 
+        public override bool Equals(object obj)
+        {
+            var other = obj as ModifiedKnesserNey;
+            return other != null && Equals(other);
+        }
+
+        protected bool Equals(ModifiedKnesserNey other)
+        {
+            return N11 == other.N11 && N12 == other.N12 && N13 == other.N13 && N14 == other.N14 &&
+                   N21 == other.N21 && N22 == other.N22 && N23 == other.N23 && N24 == other.N24 &&
+                   Math.Abs(_d11 - other._d11) < 0.00001 &&
+                   Math.Abs(_d12 - other._d12) < 0.00001 &&
+                   Math.Abs(_d13 - other._d13) < 0.00001 &&
+                   Math.Abs(_d21 - other._d21) < 0.00001 &&
+                   Math.Abs(_d22 - other._d22) < 0.00001 &&
+                   Math.Abs(_d23 - other._d23) < 0.00001 &&
+                   Math.Abs(TwoGramCount - other.TwoGramCount) < 0.00001 &&
+                   ReverseWordList.SequenceEqual(other.ReverseWordList, new KeyValuePairStringIntComparer()) &&
+                   DataSet.SequenceEqual(other.DataSet);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var comparer = new KeyValuePairStringIntComparer();
+                var hashCode = (int) N11;
+                hashCode = (hashCode*397) ^ (int) N12;
+                hashCode = (hashCode*397) ^ (int) N13;
+                hashCode = (hashCode*397) ^ (int) N14;
+                hashCode = (hashCode*397) ^ (int) N21;
+                hashCode = (hashCode*397) ^ (int) N22;
+                hashCode = (hashCode*397) ^ (int) N23;
+                hashCode = (hashCode*397) ^ (int) N24;
+                hashCode = (hashCode*397) ^ _d11.GetHashCode();
+                hashCode = (hashCode*397) ^ _d12.GetHashCode();
+                hashCode = (hashCode*397) ^ _d13.GetHashCode();
+                hashCode = (hashCode*397) ^ _d21.GetHashCode();
+                hashCode = (hashCode*397) ^ _d22.GetHashCode();
+                hashCode = (hashCode*397) ^ _d23.GetHashCode();
+                hashCode = (hashCode*397) ^ TwoGramCount.GetHashCode();
+                hashCode = ReverseWordList?.Aggregate(hashCode, (current, count) => (current * 397) ^ comparer.GetHashCode(count)) ?? hashCode;
+                hashCode = DataSet?.Aggregate(hashCode, (current, count) => (current * 397) ^ count.GetHashCode()) ?? hashCode;
+                return hashCode;
+            }
+        }
     }
 }

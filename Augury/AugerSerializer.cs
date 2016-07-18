@@ -19,7 +19,7 @@ namespace Augury
             Serialization.SerializeInterface(stream, data.SpellChecker);
             Serialization.SerializeInterface(stream, data.LanguageModel);
 
-            if (data.LanguageModel as INextWordModel != null)
+            if (data.LanguageModel is INextWordModel)
             {
                 return;
             }

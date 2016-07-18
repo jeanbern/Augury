@@ -37,6 +37,9 @@
   <ItemGroup>
     <Compile Include="Auger.cs" />
     <Compile Include="AugerSerializer.cs" />
+    <Compile Include="Comparers\KeyValuePairIntTwoStringInfoComparer.cs" />
+    <Compile Include="Comparers\KeyValuePairIntUintComparer.cs" />
+    <Compile Include="Comparers\KeyValuePairStringIntComparer.cs" />
     <Compile Include="Comparers\StringArrayEqualityComparerThree.cs" />
     <Compile Include="Comparers\StringArrayEqualityComparerTwo.cs" />
     <Compile Include="CorpusProcessor.cs" />

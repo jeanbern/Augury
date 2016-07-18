@@ -13,9 +13,10 @@ namespace Augury
         }
 
         //TODO: we should be able to do this without this much work.
+        //Why is it even done this way? It's no faster than GetSentences.Last...
         public static List<string> GetLastSentence(string text)
         {
-            if (String.IsNullOrWhiteSpace(text))
+            if (string.IsNullOrWhiteSpace(text))
             {
                 return new List<string> { "" };
             }
@@ -24,7 +25,7 @@ namespace Augury
             {
                 return new List<string> { "" };
             }
-
+            
             var res = GetSentences(text.Reverse());
             var enumerator = res.GetEnumerator();
             if (!enumerator.MoveNext())
@@ -338,7 +339,7 @@ namespace Augury
         internal static string Reverse(this string input)
         {
             if (input == null)
-                throw new ArgumentNullException("input");
+                throw new ArgumentNullException(nameof(input));
 
             // allocate a buffer to hold the output
             var output = new char[input.Length];

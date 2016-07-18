@@ -8,8 +8,8 @@ namespace Augury
     public class Dawg
     {
         internal readonly int TerminalCount;
-        internal readonly char[] Characters;
         internal readonly int RootNodeIndex;
+        internal readonly char[] Characters;
         internal readonly int[] FirstChildIndex;
 
         internal readonly int[] Edges;
@@ -120,6 +120,36 @@ namespace Augury
                 sb.Append(Characters[EdgeCharacter[i]]);
                 MatchPrefix(found, sb, Edges[i], maxDepth - 1);
                 sb.Length--;
+            }
+        }
+
+        public override bool Equals(object obj)
+        {
+            var other = obj as Dawg;
+            return other != null && Equals(other);
+        }
+
+        protected bool Equals(Dawg other)
+        {
+            return TerminalCount == other.TerminalCount &&
+                   RootNodeIndex == other.RootNodeIndex &&
+                   Characters.SequenceEqual(other.Characters) &&
+                   FirstChildIndex.SequenceEqual(other.FirstChildIndex) &&
+                   Edges.SequenceEqual(other.Edges) &&
+                   EdgeCharacter.SequenceEqual(other.EdgeCharacter);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var hashCode = TerminalCount;
+                hashCode = (hashCode * 397) ^ RootNodeIndex;
+                hashCode = Characters?.Aggregate(hashCode, (current, character) => (current * 397) ^ character) ?? hashCode;
+                hashCode = FirstChildIndex?.Aggregate(hashCode, (current, childIndex) => (current * 397) ^ childIndex) ?? hashCode;
+                hashCode = Edges?.Aggregate(hashCode, (current, edge) => (current * 397) ^ edge) ?? hashCode;
+                hashCode = EdgeCharacter?.Aggregate(hashCode, (current, edgeCharacter) => (current * 397) ^ edgeCharacter) ?? hashCode;
+                return hashCode;
             }
         }
     }
