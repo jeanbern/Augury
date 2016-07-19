@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Augury.Comparers
 {
@@ -7,12 +6,15 @@ namespace Augury.Comparers
     {
         public bool Equals(KeyValuePair<int, uint> x, KeyValuePair<int, uint> y)
         {
-            throw new NotImplementedException();
+            return Equals(x.Value, y.Value) && Equals(x.Key, y.Key);
         }
 
         public int GetHashCode(KeyValuePair<int, uint> obj)
         {
-            throw new NotImplementedException();
+            unchecked
+            {
+                return (obj.Value.GetHashCode() * 397) ^ base.GetHashCode();
+            }
         }
     }
 }

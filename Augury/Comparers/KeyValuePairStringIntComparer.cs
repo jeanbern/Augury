@@ -13,7 +13,7 @@ namespace Augury.Comparers
         {
             unchecked
             {
-                return obj.Value.GetHashCode() * 31 + 17 * obj.Key.GetHashCode();
+                return (obj.Value.GetHashCode() * 397) ^ base.GetHashCode();
             }
         }
     }

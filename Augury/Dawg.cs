@@ -27,7 +27,7 @@ namespace Augury
             EdgeCharacter = edgeCharacter;
         }
 
-        protected Dawg(IEnumerable<string> words)
+        internal Dawg(IEnumerable<string> words)
         {
             var builder = new DawgBuilder();
             foreach(var word in words)

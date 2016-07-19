@@ -1,20 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Augury.Comparers
 {
-    class KeyValuePairIntTwoStringInfoComparer : IEqualityComparer<KeyValuePair<int, TwoStringInfo>>
+    internal class KeyValuePairIntTwoStringInfoComparer : IEqualityComparer<KeyValuePair<int, TwoStringInfo>>
     {
         public bool Equals(KeyValuePair<int, TwoStringInfo> x, KeyValuePair<int, TwoStringInfo> y)
         {
-            //TODO
-            throw new NotImplementedException();
+            return Equals(x.Key, y.Key) && x.Value.Equals(y.Value);
         }
 
         public int GetHashCode(KeyValuePair<int, TwoStringInfo> obj)
         {
-            //TODO
-            throw new NotImplementedException();
+            unchecked
+            {
+                return (obj.Value.GetHashCode() * 397) ^ base.GetHashCode();
+            }
         }
     }
 }

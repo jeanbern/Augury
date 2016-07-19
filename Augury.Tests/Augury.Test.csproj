@@ -54,10 +54,13 @@
   <ItemGroup>
     <Compile Include="DawgTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Serialization\AugerSerializationTest.cs" />
+    <Compile Include="Serialization\ModifiedKnesserNeySerializationTest.cs" />
+    <Compile Include="Serialization\SerializationTestBase.cs" />
+    <Compile Include="Serialization\SpellCheckSerializationTest.cs" />
     <Compile Include="StringMetric\BoundedJaroWinklerTest.cs" />
     <Compile Include="StringMetric\StringMetricTestBase.cs" />
     <Compile Include="TestDawg.cs" />
-    <Compile Include="SerializationTests.cs" />
     <Compile Include="StringMetric\JaroWinklerTest.cs" />
   </ItemGroup>
   <ItemGroup>
