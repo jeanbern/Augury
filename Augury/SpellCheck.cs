@@ -202,13 +202,13 @@ namespace Augury
 
         protected bool Equals(SpellCheck other)
         {
-            return StringSimilarityProvider.GetType() == other.StringSimilarityProvider.GetType() &&
+            return Equals(StringSimilarityProvider, other.StringSimilarityProvider) &&
                    base.Equals(other);
         }
 
         public override int GetHashCode()
         {
-            return ((StringSimilarityProvider?.GetType().ToString().GetHashCode() ?? 0) * 397) ^ base.GetHashCode();
+            return ((StringSimilarityProvider?.GetType().GetHashCode() ?? 0) * 397) ^ base.GetHashCode();
         }
     }
 }
