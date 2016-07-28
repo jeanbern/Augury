@@ -313,7 +313,7 @@ namespace Augury
             if (!ReverseWordList.TryGetValue(w[0], out oneIndex))
             {
                 //The first word isn't in the dictionary. We can try matching the last 2.
-                return return GetPFromTwo(w.Skip(1).ToArray());
+                return GetPFromTwo(w.Skip(1).ToArray());
             }
 
             var oneInfo = DataSet[oneIndex];
