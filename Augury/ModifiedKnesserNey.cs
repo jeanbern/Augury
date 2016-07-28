@@ -222,15 +222,23 @@ namespace Augury
 
         #region INextWordModel
 
-
-        public IReadOnlyList<string> NextWord(IReadOnlyList<string> previous)
+        public IReadOnlyList<string> NextWord(IReadOnlyList<string> history)
         {
             //TODO: do I need to return a list with an empty string? or is an empty list better?
             //There is no partial word, we can't spellcheck at all.
-            //We also don't really want to itterate all n-grams that start with previous, that would take a looong time. 
+            //We also don't really want to itterate all n-grams that start with history, that would take a looong time. 
             //So we have a premade lookup table of common ones.
-            if (previous.Count == 0)
+            if (history.Count == 0)
             {
+                return new List<string> { "" };
+            }
+
+            var previous = history.Skip(Math.Max(history.Count - 2, 0)).ToArray();
+
+            int twoIndex;
+            if (previous.Count > 1 && !ReverseWordList.TryGetValue(previous[1], out twoIndex))
+            {
+                //The second word doesn't exist. No point looking for the first one.
                 return new List<string> { "" };
             }
 
@@ -240,47 +248,31 @@ namespace Augury
                 //The first word isn't a real word
                 if (previous.Count == 1)
                 {
+                    //The only word isn't a real word.
                     return new List<string> { "" };
                 }
 
-                int secondStringIndex;
-                if (ReverseWordList.TryGetValue(previous[1], out secondStringIndex))
-                {
-                    //The second word is, so let's use words that follow it 
-                    var secondStringAsFirst = DataSet[secondStringIndex];
-                    var results = secondStringAsFirst.MostLikelies.Select(x => ReverseWordList[x]).ToList();
-                    return results;
-                }
-
-                return new List<string> { "" };
+                //The second word is the only real one, so we'll return as if it was the first.
+                var firstInfoForSecondWord = DataSet[twoIndex];
+                var results = firstInfoForSecondWord.MostLikelies.Select(x => ReverseWordList[x]).ToList();
+                return results;
             }
 
             var oneInfo = DataSet[oneIndex];
             if (previous.Count == 1)
             {
+                //There is only one word, exit early.
                 var results = oneInfo.MostLikelies.Select(x => ReverseWordList[x]).ToList();
                 return results;
-            }
-
-            int twoIndex;
-            if (!ReverseWordList.TryGetValue(previous[1], out twoIndex))
-            {
-                return new List<string> { "" };
             }
 
             TwoStringInfo twoInfo;
             if (!oneInfo.TwoGrams.TryGetValue(twoIndex, out twoInfo) || twoInfo.MostLikelies.Count == 0)
             {
-                //The second word doesn't often come after the first, let's try just using the second.
-                int secondStringIndex;
-                if (ReverseWordList.TryGetValue(previous[1], out secondStringIndex))
-                {
-                    var secondStringAsFirst = DataSet[secondStringIndex];
-                    var results = secondStringAsFirst.MostLikelies.Select(x => ReverseWordList[x]).ToList();
-                    return results;
-                }
-
-                return new List<string> { "" };
+                //The second word doesn't often come after the first, let's try using the second as if it were the first.
+                var firstInfoForSecondWord = DataSet[twoIndex];
+                var results = firstInfoForSecondWord.MostLikelies.Select(x => ReverseWordList[x]).ToList();
+                return results;
             }
 
             var actualThreeGramResultsWow = twoInfo.MostLikelies.Select(x => ReverseWordList[x]).ToList();
@@ -295,44 +287,50 @@ namespace Augury
         {
             //Save two checks if length >= 3
             //Shortens the time for the calls that would take the longest.
+            //TODO: profile this optimization, seems useless
             if (history.Count < 3)
             {
                 if (history.Count == 2)
                 {
                     return GetPFromTwo(history);
                 }
+
                 if (history.Count == 1)
                 {
-                    int attempt;
-                    if (!ReverseWordList.TryGetValue(history[0], out attempt))
-                    {
-                        return 0.0;
-                    }
-
-                    return DataSet[attempt].OneGramCount / (double)DataSet.Count;
+                    return SingleWordP(history[0]);
                 }
+
                 if (history.Count == 0)
                 {
                     return 0.0;
                 }
             }
 
+            //w contains exactly 3 words.
             var w = history.Skip(history.Count - 3).ToArray();
 
             int oneIndex;
             if (!ReverseWordList.TryGetValue(w[0], out oneIndex))
             {
-                return 0.0;
+                //The first word isn't in the dictionary. We can try matching the last 2.
+                return return GetPFromTwo(w.Skip(1).ToArray());
             }
 
             var oneInfo = DataSet[oneIndex];
             int twoIndex;
             TwoStringInfo twoInfo;
-            if (!ReverseWordList.TryGetValue(w[1], out twoIndex) || !oneInfo.TwoGrams.TryGetValue(twoIndex, out twoInfo))
+            if (!ReverseWordList.TryGetValue(w[1], out twoIndex))
             {
-                //if we haven't seens firstTwo, there's no 3-gram that matches ww_ so yhigh will be 0
-                //no ww_ means no www, so first will also be 0
-                return 0.0;
+                //The second word isn't in the dictionary. We can't do any evaluation of the ngram.
+                return SingleWordP(w[2]);
+            }
+
+            if (!oneInfo.TwoGrams.TryGetValue(twoIndex, out twoInfo))
+            {
+                //if we haven't seens ww_ yhigh will be 0
+                //no ww_ means no www, so first will also be 0.
+                //we can try matching the last 2.
+                return return GetPFromTwo(w.Skip(1).ToArray());
             }
 
             var denom = twoInfo.TwoGramCount;
@@ -360,7 +358,7 @@ namespace Augury
             if (!ReverseWordList.TryGetValue(w[0], out oneIndex))
             {
                 //no w means no w_ or ww
-                return 0.0;
+                return SingleWordP(w[1]);
             }
 
             var oneInfo = DataSet[oneIndex];
@@ -431,6 +429,17 @@ namespace Augury
 
             var oneInfo = DataSet[oneIndex];
             return oneInfo.N1PlusStarw / TwoGramCount;
+        }
+
+        private double SingleWordP(string word)
+        {
+            int attempt;
+            if (!ReverseWordList.TryGetValue(word, out attempt))
+            {
+                return 0.0;
+            }
+    
+            return DataSet[attempt].OneGramCount / (double)DataSet.Count;
         }
 
         #endregion
