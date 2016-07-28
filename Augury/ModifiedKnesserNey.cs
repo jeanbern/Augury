@@ -330,7 +330,7 @@ namespace Augury
                 //if we haven't seens ww_ yhigh will be 0
                 //no ww_ means no www, so first will also be 0.
                 //we can try matching the last 2.
-                return return GetPFromTwo(w.Skip(1).ToArray());
+                return GetPFromTwo(w.Skip(1).ToArray());
             }
 
             var denom = twoInfo.TwoGramCount;
