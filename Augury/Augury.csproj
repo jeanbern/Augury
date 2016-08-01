@@ -46,8 +46,8 @@
     <Compile Include="Dawg.cs" />
     <Compile Include="DawgBuilder.cs" />
     <Compile Include="DawgNode.cs" />
-    <Compile Include="ModifiedKnesserNey.cs" />
-    <Compile Include="ModifiedNesserKneySerializer.cs" />
+    <Compile Include="ModifiedKneserNey.cs" />
+    <Compile Include="ModifiedKneserKneySerializer.cs" />
     <Compile Include="NwStarCount.cs" />
     <Compile Include="OneStringInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

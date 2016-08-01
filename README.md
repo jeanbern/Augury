@@ -3,7 +3,7 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/1lmiyf9319aagk6p?svg=true)](https://ci.appveyor.com/project/jeanbern/augury) [![Stories in Ready](https://badge.waffle.io/jeanbern/Augury.png?label=ready&title=Ready)](https://waffle.io/jeanbern/Augury)
 
 A small collection of natural language processing tools in C#. Augury is intended for use as a text predictor/spell-checker.  
-Using a DAWG and the Jaro-Winkler distance, we evaluate possible word endings and spell-checks. These are then evaluated using Modified-Knesser-Ney smoothing, and the top results are returned. Support for symmetric-delete correction as an alternative is included.  
+Using a DAWG and the Jaro-Winkler distance, we evaluate possible word endings and spell-checks. These are then evaluated using Modified-Kneser-Ney smoothing, and the top results are returned. Support for symmetric-delete correction as an alternative is included.  
 Most behavior is injectable and interfaces are provided to enable extension.  
 
 Documentation coming soon.

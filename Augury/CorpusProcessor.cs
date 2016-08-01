@@ -39,14 +39,14 @@ namespace Augury
             
             Read(ref d1, ref d2, ref d3, filenames);
 
-            var mkn = new ModifiedKnesserNey(d3, d2, d1);
+            var mkn = new ModifiedKneserNey(d3, d2, d1);
             var words = d1.Keys.ToArray();
             Array.Sort(words, StringComparer.OrdinalIgnoreCase);
             var sc = new SpellCheck(words, new BoundedJaroWinkler());
             return new Auger(sc, mkn, mkn);
         }
 
-        public static ModifiedKnesserNey CreateModifiedKnesserNey(params string[] filenames)
+        public static ModifiedKneserNey CreateModifiedKneserNey(params string[] filenames)
         {
             var d1 = new Dictionary<string, uint>();
             var d2 = new Dictionary<string[], uint>(new StringArrayEqualityComparerTwo());
@@ -54,7 +54,7 @@ namespace Augury
 
             Read(ref d1, ref d2, ref d3, filenames);
 
-            return new ModifiedKnesserNey(d3, d2, d1);
+            return new ModifiedKneserNey(d3, d2, d1);
         }
 
         internal static void Read(ref Dictionary<string, uint> d1, ref Dictionary<string[], uint> d2, ref Dictionary<string[], uint> d3, params string[] filenames)

@@ -10,9 +10,9 @@ namespace Augury
     /// Provides methods for calculating the probability of a word appearing based on words preceeding it. Uses the modified Kneser-Ney algorithm from Chen & Goodman 1999.
     /// </summary>
     /// <see cref="http://www2.denizyuret.com/ref/goodman/chen-goodman-99.pdf">Chen & Goodman 1999. The paper detailing the algorithm used here to calculate predictions.</see>
-    /// <seealso cref="http://ieeexplore.ieee.org/xpl/login.jsp?tp=&arnumber=479394">Knesser & Ney 1995. The paper referenced by Chen & Goodman</seealso>
+    /// <seealso cref="http://ieeexplore.ieee.org/xpl/login.jsp?tp=&arnumber=479394">Kneser & Ney 1995. The paper referenced by Chen & Goodman</seealso>
     /// <seealso cref="http://west.uni-koblenz.de/sites/default/files/BachelorArbeit_MartinKoerner.pdf">Martin Christian Körner 2013. For more readable notation.</seealso>
-    public class ModifiedKnesserNey : ILanguageModel, INextWordModel
+    public class ModifiedKneserNey : ILanguageModel, INextWordModel
     {
         internal uint N11, N12, N13, N14;
         internal uint N21, N22, N23, N24;
@@ -36,7 +36,7 @@ namespace Augury
         /// <param name="threeGrams"></param>
         /// <param name="twoGrams"></param>
         /// <param name="oneGrams"></param>
-        internal ModifiedKnesserNey(IEnumerable<KeyValuePair<string[], uint>> threeGrams, IEnumerable<KeyValuePair<string[], uint>> twoGrams, Dictionary<string, uint> oneGrams)
+        internal ModifiedKneserNey(IEnumerable<KeyValuePair<string[], uint>> threeGrams, IEnumerable<KeyValuePair<string[], uint>> twoGrams, Dictionary<string, uint> oneGrams)
         {
             var rejectedOneGrams = new HashSet<string>();
             var keys = oneGrams.Keys.ToList();
@@ -175,7 +175,7 @@ namespace Augury
         /// <summary>
         /// Don't use this, it's only for the serializer. Seriously.
         /// </summary>
-        internal ModifiedKnesserNey(List<OneStringInfo> dataSet,
+        internal ModifiedKneserNey(List<OneStringInfo> dataSet,
             OrderedDictionary<string, int> reverseWords,
             uint n11, uint n12, uint n13, uint n14,
             uint n21, uint n22, uint n23, uint n24,
@@ -235,8 +235,9 @@ namespace Augury
 
             var previous = history.Skip(Math.Max(history.Count - 2, 0)).ToArray();
 
-            int twoIndex;
-            if (previous.Count > 1 && !ReverseWordList.TryGetValue(previous[1], out twoIndex))
+            //Set to -1 to avoid unassigned local variable warnings, even though if you reason it out that case can't happen.
+            var twoIndex = -1;
+            if (previous.Length > 1 && !ReverseWordList.TryGetValue(previous[1], out twoIndex))
             {
                 //The second word doesn't exist. No point looking for the first one.
                 return new List<string> { "" };
@@ -246,37 +247,31 @@ namespace Augury
             if (!ReverseWordList.TryGetValue(previous[0], out oneIndex))
             {
                 //The first word isn't a real word
-                if (previous.Count == 1)
+                if (previous.Length == 1)
                 {
                     //The only word isn't a real word.
                     return new List<string> { "" };
                 }
 
                 //The second word is the only real one, so we'll return as if it was the first.
-                var firstInfoForSecondWord = DataSet[twoIndex];
-                var results = firstInfoForSecondWord.MostLikelies.Select(x => ReverseWordList[x]).ToList();
-                return results;
+                return DataSet[twoIndex].MostLikelies.Select(x => ReverseWordList[x]).ToList();
             }
 
             var oneInfo = DataSet[oneIndex];
-            if (previous.Count == 1)
+            if (previous.Length == 1)
             {
                 //There is only one word, exit early.
-                var results = oneInfo.MostLikelies.Select(x => ReverseWordList[x]).ToList();
-                return results;
+                return oneInfo.MostLikelies.Select(x => ReverseWordList[x]).ToList();
             }
 
             TwoStringInfo twoInfo;
             if (!oneInfo.TwoGrams.TryGetValue(twoIndex, out twoInfo) || twoInfo.MostLikelies.Count == 0)
             {
                 //The second word doesn't often come after the first, let's try using the second as if it were the first.
-                var firstInfoForSecondWord = DataSet[twoIndex];
-                var results = firstInfoForSecondWord.MostLikelies.Select(x => ReverseWordList[x]).ToList();
-                return results;
+                return DataSet[twoIndex].MostLikelies.Select(x => ReverseWordList[x]).ToList();
             }
 
-            var actualThreeGramResultsWow = twoInfo.MostLikelies.Select(x => ReverseWordList[x]).ToList();
-            return actualThreeGramResultsWow;
+            return twoInfo.MostLikelies.Select(x => ReverseWordList[x]).ToList();
         }
 
         #endregion
@@ -493,11 +488,11 @@ namespace Augury
 
         public override bool Equals(object obj)
         {
-            var other = obj as ModifiedKnesserNey;
+            var other = obj as ModifiedKneserNey;
             return other != null && Equals(other);
         }
 
-        protected bool Equals(ModifiedKnesserNey other)
+        protected bool Equals(ModifiedKneserNey other)
         {
             return N11 == other.N11 && N12 == other.N12 && N13 == other.N13 && N14 == other.N14 &&
                    N21 == other.N21 && N22 == other.N22 && N23 == other.N23 && N24 == other.N24 &&

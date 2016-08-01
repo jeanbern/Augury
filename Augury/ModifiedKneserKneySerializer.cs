@@ -6,15 +6,15 @@ using System.Linq;
 
 namespace Augury
 {
-    class ModifiedNesserKneySerializer : ISerializer<ModifiedKnesserNey>
+    class ModifiedKneserKneySerializer : ISerializer<ModifiedKneserNey>
     {
-        public ModifiedKnesserNey Deserialize(Stream stream)
+        public ModifiedKneserNey Deserialize(Stream stream)
         {
             var dataSet = DeserializeListOneStringInfo(Serialization.ReadChunk(stream, "dataSet"));
             var reverseWordList = new OrderedDictionarySerializer().Deserialize(stream);
             var nValues = Serialization.ReadChunk(stream, "nValues");
 
-            return new ModifiedKnesserNey(dataSet, reverseWordList,
+            return new ModifiedKneserNey(dataSet, reverseWordList,
                 BitConverter.ToUInt32(nValues, 0),
                 BitConverter.ToUInt32(nValues, 4),
                 BitConverter.ToUInt32(nValues, 8),
@@ -26,7 +26,7 @@ namespace Augury
                 BitConverter.ToDouble(nValues, 32));
         }
 
-        public void Serialize(Stream stream, ModifiedKnesserNey data)
+        public void Serialize(Stream stream, ModifiedKneserNey data)
         {
             var bytes = Serialization.Encapsulate(Serialize(data.DataSet));
             stream.Write(bytes, 0, bytes.Length);

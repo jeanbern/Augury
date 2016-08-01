@@ -56,7 +56,7 @@
     <Compile Include="PriorityQueue\PriorityQueueTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serialization\AugerSerializationTest.cs" />
-    <Compile Include="Serialization\ModifiedKnesserNeySerializationTest.cs" />
+    <Compile Include="Serialization\ModifiedKneserNeySerializationTest.cs" />
     <Compile Include="Serialization\SerializationTestBase.cs" />
     <Compile Include="Serialization\SpellCheckSerializationTest.cs" />
     <Compile Include="StringMetric\BoundedJaroWinklerTest.cs" />
