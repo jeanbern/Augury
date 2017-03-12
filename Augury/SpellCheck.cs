@@ -115,13 +115,19 @@ namespace Augury
                     FindCorrections(soFar, builder, prefix.Substring(1), newNode, maxErrors, match + 1, transpositions);
                 }
 
+                if (maxErrors == 0)
+                {
+                    builder.Length--;
+                    continue;
+                }
+
                 //Try as if the character is an insertion
                 FindCorrections(soFar, builder, prefix, newNode, maxErrors - 1, match, transpositions);
 
                 //Try as if the character is a deletion
                 if (prefix.Length > 1)
                 {
-                    FindCorrections(soFar, builder, prefix.Substring(2), node, maxErrors - 1, match, transpositions);
+                    FindCorrections(soFar, builder, prefix.Substring(2), newNode, maxErrors - 1, match, transpositions);
                 }
 
                 //Try as if there's a substitution

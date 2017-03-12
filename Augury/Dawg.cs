@@ -37,12 +37,13 @@ namespace Augury
 
             var root = builder.Finish();
 
-            int low = 0, high = 0;
             var allNodes = new List<DawgNode>();
-            var totalChildCount = root.Traversal(ref low, ref high, allNodes);
+            var allChars = new HashSet<char>();
+            int low = 0, high = 0;
+            var totalChildCount = root.Traversal(ref low, ref high, allNodes, allChars);
             Func<int, int> realIndex = x => -low + (x < 0 ? x : x - 1);
 
-            Characters = allNodes.SelectMany(node => node.Children.Keys).Distinct().OrderBy(character => character).ToArray();
+            Characters = allChars.OrderBy(character => character).ToArray();
             Edges = new int[totalChildCount];
             EdgeCharacter = new ushort[totalChildCount];
             FirstChildIndex = new int[high - low];
@@ -50,8 +51,15 @@ namespace Augury
             TerminalCount = -low;
 
             var characterIndex = Characters.Select((character, i) => new KeyValuePair<char, ushort>(character, (ushort)i)).ToDictionary(x => x.Key, x => x.Value);
-            var edgeIndex = 0;
+
+            var orderedNodes = new DawgNode[allNodes.Count];
             foreach (var node in allNodes)
+            {
+                orderedNodes[realIndex(node.Id)] = node;
+            }
+
+            var edgeIndex = 0;
+            foreach (var node in orderedNodes)
             {
                 FirstChildIndex[realIndex(node.Id)] = edgeIndex;
                 foreach (var child in node.SortedChildren)

@@ -44,32 +44,29 @@ namespace Augury
                 return new List<string>();
             }
 
-            var lastWord = history[lastIndex];
-            history = history.Select(x => x.ToLowerInvariant()).ToList();
+            var lastWord = history.Last();
+            //history = history.Select(x => x.ToLowerInvariant()).ToList();
 
-            var partial = history[lastIndex];
+            var partial = lastWord.ToLowerInvariant();
             //Only care about the last 2, since we deal with 3-grams
-            var previousCount = Math.Max(lastIndex, 2);
-            var previous = history.Skip(history.Count - previousCount).ToArray();
+            var n = Math.Max(history.Count, 2);
+            var nGram = history.Skip(history.Count - n).ToArray();
             
             if (string.IsNullOrWhiteSpace(partial))
             {
-                return NextWordModel.NextWord(previous);
+                return NextWordModel.NextWord(nGram.Take(n-1).ToArray());
             }
 
             //Words obtained via correcting and/or starting with partial.
             //Does not care about the word history.
             var spellchecks = SpellChecker.PrefixLookup(partial, MaxSpellCheckResults);
-
-            var possibleWordValue = new string[previousCount + 1];
-            Array.Copy(previous, possibleWordValue, previousCount);
-
+            
             var possibleSpellchecks = new Dictionary<string, double>();
             //Now we take our possible spell-checked words and see if any of them fit well with the history.
             foreach (var spellcheckPair in spellchecks)
             {
-                possibleWordValue[previousCount] = spellcheckPair.Word;
-                var value = LanguageModel.Evaluate(possibleWordValue);
+                nGram[nGram.Length - 1] = spellcheckPair.Word;
+                var value = LanguageModel.Evaluate(nGram);
 
                 possibleSpellchecks.Add(spellcheckPair.Word, value > 0 ? value*spellcheckPair.Similarity : spellcheckPair.Similarity - 1);
             }

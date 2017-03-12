@@ -6,18 +6,18 @@ using System.Text;
 
 namespace Augury
 {
-    internal class DawgNode
+    public class DawgNode
     {
         public override string ToString()
         {
             var result = new StringBuilder();
-            result.Append(TerminalNode ? "1" : "0");
+            result.Append(TerminalNode ? "-" : "");
             foreach (var edge in Children)
             {
                 result.Append(edge.Key + edge.Value.ToString());
             }
 
-            return " " + result;
+            return "(" + result + ")";
         }
 
         public override int GetHashCode()
@@ -37,7 +37,7 @@ namespace Augury
         }
         
         public int Id { get; protected set; }
-        public int Traversal(ref int low, ref int high, ICollection<DawgNode> nodes)
+        public int Traversal(ref int low, ref int high, ICollection<DawgNode> nodes, ICollection<char> allChars)
         {
             if (Id != 0)
             {
@@ -57,7 +57,8 @@ namespace Augury
             nodes.Add(this);
             foreach(var child in Children)
             {
-                result += 1 + child.Value.Traversal(ref low, ref high, nodes);
+                allChars.Add(child.Key);
+                result += 1 + child.Value.Traversal(ref low, ref high, nodes, allChars);
             }
 
             return result;

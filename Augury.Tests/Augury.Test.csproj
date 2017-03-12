@@ -52,7 +52,12 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="DawgTest.cs" />
+    <Compile Include="AugerHelper.cs" />
+    <Compile Include="DAWG\DawgTest.cs" />
+    <Compile Include="DAWG\DawgBuilderTest.cs" />
+    <Compile Include="DAWG\DawgTestBase.cs" />
+    <Compile Include="DAWG\ITestDawg.cs" />
+    <Compile Include="DAWG\TestDawgNode.cs" />
     <Compile Include="PriorityQueue\PriorityQueueTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serialization\AugerSerializationTest.cs" />
@@ -63,10 +68,12 @@
     <Compile Include="StringMetric\LevenshteinDistanceTest.cs" />
     <Compile Include="StringMetric\NGramDistanceTest.cs" />
     <Compile Include="StringMetric\StringMetricTestBase.cs" />
-    <Compile Include="TestDawg.cs" />
+    <Compile Include="DAWG\TestDawg.cs" />
     <Compile Include="StringMetric\JaroWinklerTest.cs" />
+    <Compile Include="SpellCheckTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="FrequentWordList.txt" />
     <Content Include="SampleTexts\2 B R 0 2 B.txt" />
     <Content Include="SampleTexts\Alice%27s adventures in wonderland.txt" />
     <Content Include="SampleTexts\pride and prejudice.txt" />
@@ -106,6 +113,9 @@
       <Project>{8939f260-afba-4d9d-b943-63ba2dc3c4d5}</Project>
       <Name>Augury.PriorityQueue</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Performance\" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
