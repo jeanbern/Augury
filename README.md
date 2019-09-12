@@ -1,5 +1,7 @@
 # Augury
 
+Further work is happening in the portent repo: https://github.com/jeanbern/portent
+
 [![Build status](https://ci.appveyor.com/api/projects/status/1lmiyf9319aagk6p?svg=true)](https://ci.appveyor.com/project/jeanbern/augury) [![Stories in Ready](https://badge.waffle.io/jeanbern/Augury.png?label=ready&title=Ready)](https://waffle.io/jeanbern/Augury)
 
 A small collection of natural language processing tools in C#. Augury is intended for use as a text predictor/spell-checker.  
